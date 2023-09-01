@@ -1,0 +1,14 @@
+@theme "~/.config/rofi/mine.rasi"
+
+configuration {
+    /* 字体 */
+    font: "hack nerd 16";
+    padding: 5;
+
+	/* 配置显示类型 */
+	modi: "run,window,drun";
+    /* 配置是否支持icon以及icon主题 */
+	show-icons: true;
+    icon-theme: "Papirus-Dark-Custom";
+	drun-icon-theme: "Papirus-Dark-Custom";
+}

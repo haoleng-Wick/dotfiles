@@ -1,0 +1,14 @@
+Keymap = keymap
+ReadTags = yes
+MusicDir = /home/haoleng/Public/Music
+XTerms = xterm-256color
+Theme = black_theme
+# 按文件名排序
+Sort = FileName
+
+# 是否随机播放
+Shuffle = yes
+AutoNext = yes
+Repeat = yes
+
+AutoLoadLyrics = yes
