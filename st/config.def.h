@@ -6,8 +6,8 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "Hack Nerd Font:pixelsize=19:antialias=true:autohint=true, Microsoft YaHei:pixelsize=19:antialias=true:autohint=true";
-// static const char *fonts[]          = { "Hack Nerd Font:size=19",
-//                                         "Microsoft YaHei:size=18:type=Regular:antialias=true:autohint=true" };
+// static const char *fonts[]          = { "Hack Nerd Font:size=18",
+//                                         "Microsoft YaHei:size=17:type=Regular:antialias=true:autohint=true" };
 static int borderpx = 2;
 
 /*
@@ -218,8 +218,8 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
-	{ ShiftMask,            XK_Up,          kscrollup,      {.i = 1} },
-	{ ShiftMask,            XK_Down,        kscrolldown,    {.i = 1} },
+	{ ControlMask|ShiftMask,XK_K,           kscrollup,      {.i = 2} },
+	{ ControlMask|ShiftMask,XK_J            kscrolldown,    {.i = 2} },
 };
 
 /*

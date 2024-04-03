@@ -6,8 +6,8 @@ static const unsigned int gappx     = 4;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Hack Nerd Font:size=11",
-                                        "Microsoft YaHei:size=10:type=Regular:antialias=true:autohint=true" };
+static const char *fonts[]          = { "Hack Nerd Font:size=14",
+                                        "Microsoft YaHei:size=13:type=Regular:antialias=true:autohint=true" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -32,16 +32,9 @@ static const unsigned int alphas[][3]      = {
 static const char *tags[] = { "", "", "", "󰓥", "󰓓", "󱗖", "", "󰄄", "" };
 
 static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
     /* class      instance    title       tags mask     isfloating   monitor    float x,y,w,h     floatborderpx    scratch key */
 	{ "steam",    NULL,       NULL,       1 << 4,       0,           -1,        -1,-1,-1,-1,      2,               0  },
-	{ "SimpleScreenRecorder", NULL, NULL, 1 << 7,       1,           -1,        800,150,460,700,  2,               0  },
-	{ NULL,       NULL,    "scratchpad",  0,            1,           -1,        480,270,1000,630,    2,              's' },
-	{ NULL,       NULL,    "Scratchpad",  0,            1,           -1,        480,270,932,626,  2,              'S' },
-	{ NULL,       NULL,     "cava",       0,            1,           -1,        1060,20,320,320,  2,              'c' },
+	{ NULL,       NULL,    "scratchpad",  0,            1,           -1,        110,160,-1,-1,    2,              's' },
 };
 
 /* layout(s) */
@@ -71,50 +64,45 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "rofi", "-show", "drun", NULL };
-static const char *termcmd[]  = { "kitty", NULL };
-static const char *browse[]  = { "firefox-bin", NULL };
-static const char *screenshot[]  = { "maim", "-s", "~/$(date +\"%s\").png", NULL }; //maim -s ~/$(date +"%s").png
-static const char *neovide[]  = { "neovide", NULL };
-static const char *backlight_add[]  = { "xbacklight", "-inc", "1", NULL };
-static const char *backlight_sub[]  = { "xbacklight", "-dec", "1", NULL };
+static const char *termcmd[]  = { "st", NULL };
+static const char *browser[]  = { "firefox", NULL };
+//static const char *neovide[]  = { "neovide", NULL };
+static const char *backlight_add[]  = { "xbacklight", "-inc", "2", NULL };
+static const char *backlight_sub[]  = { "xbacklight", "-dec", "2", NULL };
 static const char *sound_add[]  = { "amixer", "-q", "set", "Master", "2%+", "unmute", NULL };
 static const char *sound_sub[]  = { "amixer", "-q", "set", "Master", "2%-", "unmute", NULL };
 static const char *sound_toggle[]  = { "amixer", "sset", "Master", "toggle", NULL };
-static const char *music_play[]  = { "mpc", "play", NULL };
-static const char *music_pause[] = { "mpc", "toggle", NULL };
-static const char *music_stop[]  = { "mpc", "stop", NULL };
-static const char *music_prev[]  = { "mpc", "prev", NULL };
-static const char *music_next[]  = { "mpc", "next", NULL };
-static const char *calculator[]  = { "rofi", "-show", "calc", "-modi", "calc", "-no-show-match", "-no-sort", NULL };
-static const char *powermenu[]   = { "rofi", "-show", "power", "-modi", "power:~/.config/rofi/scripts/powermenu.sh", NULL };
+//static const char *music_play[]  = { "mpc", "play", NULL };
+//static const char *music_pause[] = { "mpc", "toggle", NULL };
+//static const char *music_stop[]  = { "mpc", "stop", NULL };
+//static const char *music_prev[]  = { "mpc", "prev", NULL };
+//static const char *music_next[]  = { "mpc", "next", NULL };
+//static const char *calculator[]  = { "rofi", "-show", "calc", "-modi", "calc", "-no-show-match", "-no-sort", NULL };
+//static const char *powermenu[]   = { "rofi", "-show", "power", "-modi", "power:~/.config/rofi/scripts/powermenu.sh", NULL };
 
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = {"s", "kitty", "-T", "scratchpad", NULL}; 
-static const char *Scratchpadcmd[] = {"S", "st", "-t", "Scratchpad", NULL}; 
+static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL}; 
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-    /* 自定义程序和脚本快捷键 */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = powermenu } },
+	// { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = powermenu } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
-	{ Mod1Mask,                     XK_grave,  togglescratch,  {.v = Scratchpadcmd } },
-    { MODKEY,                       XK_o,      spawn,          {.v = browse } },
-    { MODKEY,                       XK_n,      spawn,          {.v = neovide } },
-    { MODKEY|ShiftMask,             XK_equal,  spawn,          {.v = screenshot } },
-    /* 音乐播放器控制，系统音量、| 可通过xev获取按键的编码 */
-    { 0,                            0x1008ff02,spawn,          {.v = backlight_add } },
-    { 0,                            0x1008ff03,spawn,          {.v = backlight_sub } },
-    { 0,                            0x1008ff11,spawn,          {.v = sound_sub } },
-    { 0,                            0x1008ff12,spawn,          {.v = sound_toggle } },
-    { 0,                            0x1008ff13,spawn,          {.v = sound_add } },
-    { MODKEY,                       0x1008ff14,spawn,          {.v = music_play } },
-    { 0,                            0x1008ff15,spawn,          {.v = music_stop } },
-    { 0,                            0x1008ff14,spawn,          {.v = music_pause } },
-    { 0,                            0x1008ff16,spawn,          {.v = music_prev} },
-    { 0,                            0x1008ff17,spawn,          {.v = music_next } },
-    { 0,                            0x1008ff1d,spawn,          {.v = calculator } },
+	{ MODKEY,                       XK_o,      spawn,          {.v = browser } },
+	// { MODKEY,                       XK_n,      spawn,          {.v = neovide } },
+   	/* mpc-control, sound-control,  the key could use `xev` to get */
+    // { 0,                            0x1008ff02,spawn,          {.v = backlight_add } },
+   	// { 0,                            0x1008ff03,spawn,          {.v = backlight_sub } },
+   	// { 0,                            0x1008ff11,spawn,          {.v = sound_sub } },
+   	// { 0,                            0x1008ff12,spawn,          {.v = sound_toggle } },
+   	// { 0,                            0x1008ff13,spawn,          {.v = sound_add } },
+   	// { MODKEY,                       0x1008ff14,spawn,          {.v = music_play } },
+   	// { 0,                            0x1008ff15,spawn,          {.v = music_stop } },
+   	// { 0,                            0x1008ff14,spawn,          {.v = music_pause } },
+   	// { 0,                            0x1008ff16,spawn,          {.v = music_prev} },
+   	// { 0,                            0x1008ff17,spawn,          {.v = music_next } },
+   	// { 0,                            0x1008ff1d,spawn,          {.v = calculator } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -147,7 +135,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-    { MODKEY,                       XK_minus, scratchpad_show, {0} },
+	{ MODKEY,                       XK_minus, scratchpad_show, {0} },
 	{ MODKEY|ShiftMask,             XK_minus, scratchpad_hide, {0} },
 	{ MODKEY,                       XK_equal,scratchpad_remove,{0} },
 };
@@ -168,4 +156,3 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
