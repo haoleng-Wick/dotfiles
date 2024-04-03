@@ -7,8 +7,5 @@ ratio          = [ 1, 2, 3 ]
 
 [plugin]
 prepend_previewers = [
-    { name = "*.md", run = "glow" },
-    { name = "*.doc", run = "catdoc" },
-    { name = "*.docx", run = "pandoc" },
     { mime = "audio/*", run = "exifaudio" },
 ]
