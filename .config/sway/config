@@ -9,7 +9,8 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term foot
-set $menu dmenu_path | wmenu | xargs swaymsg exec --
+# set $menu dmenu_path | wmenu | xargs swaymsg exec --
+set $menu rofi -show  drun | xargs swaymsg exec --
 
 ### Output configuration
 #
@@ -184,7 +185,9 @@ bar {
 }
 
 # WayVNC
-exec wayvnc 0.0.0.0
+exec wayvnc 0.0.0.0 &
+
+exec gentoo-pipewire-launcher &
 
 # Others
 include /etc/sway/config.d/*
